@@ -23,13 +23,12 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 		/**
 		 * Field ID.
 		 *
-		 * @since 1.0.0
 		 * @var int ID of field.
 		 */
 		public $id;
 
 		/**
-		 * Whether values from this field are autolinked to directory searches.
+		 * Whether values from this field are repeater or not.
 		 *
 		 * @var string
 		 */
@@ -40,19 +39,27 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 		 */
 		public function __construct() {
 
+			// Bail, if anything goes wrong.
 			if ( function_exists( 'buddypress' ) ) {
 				return;
 			}
 
+			// Set field id.
 			$this->id = filter_input( INPUT_GET, 'field_id', FILTER_SANITIZE_NUMBER_INT );
 
 			// Add settings.
 			add_action( 'xprofile_field_after_sidebarbox', array( $this, 'bppfr_field_repeater_setting' ) );
 
+			// Save setting.
 			add_action( 'xprofile_fields_saved_field', array( $this, 'bppfr_save_repeater_setting' ) );
 
 		}
 
+		/**
+		 * Show box for selecting field as repeater or not in sidebar.
+		 *
+		 * @return void
+		 */
 		public function bppfr_field_repeater_setting() {
 
 			?>
@@ -79,15 +86,9 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 		}
 
 		/**
-		 * Get whether the field values should be auto-linked to a directory search.
+		 * Get whether the field values are repeater or not.
 		 *
-		 * Lazy-loaded to reduce overhead.
-		 *
-		 * Defaults to true for multi and default fields, false for single fields.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @return bool
+		 * @return string Yes | No
 		 */
 		public function get_is_field_repeater() {
 			if ( ! isset( $this->field_is_repeater ) ) {
@@ -109,13 +110,23 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 			 * @param bool              $field_is_repeater The repeater property of the field.
 			 * @param BP_XProfile_Field $this Field object.
 			 */
-			//echo '+++'.$this->field_is_repeater.'---';
 			return apply_filters( 'bp_xprofile_field_field_is_repeater', $this->field_is_repeater, $this );
 		}
 
+		/**
+		 * Save repeater setting.
+		 *
+		 * @param  object $field Field object.
+		 * @return void
+		 */
 		public function bppfr_save_repeater_setting( $field ) {
 
-			// Save autolink settings.
+			// Bail, if anything goes wrong.
+			if ( empty( $field ) ) {
+				return;
+			}
+
+			// Save repeater settings.
 			if ( isset( $_POST['field_is_repeater'] ) && 'yes' === wp_unslash( $_POST['field_is_repeater'] ) ) {
 				bp_xprofile_update_field_meta( $field->id, 'field_is_repeater', 'yes' );
 			} else {

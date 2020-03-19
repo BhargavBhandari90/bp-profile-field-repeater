@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WPGULP package.
 msgid ""
 msgstr ""
-"Project-Id-Version: BuddyPress Re-post Activity\n"
+"Project-Id-Version: WPGULP\n"
 "Report-Msgid-Bugs-To: https://AhmadAwais.com/contact/\n"
-"POT-Creation-Date: 2019-10-06 12:35+0530\n"
+"POT-Creation-Date: 2020-03-19 18:39+0530\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Bunty <bn.bhandari90@gmail.com>\n"
@@ -22,40 +22,34 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: app/admin/class-bp-repost-activity-admin.php:41
-msgid "Re-Post Activity"
+#: app/admin/class-bp-field-repeater-admin.php:68
+#: app/admin/class-bp-field-repeater-admin.php:75
+msgid "Is the field repeater?"
 msgstr ""
 
-#: app/admin/class-bp-repost-activity-admin.php:62
-msgid "Allow users to re-post activity from activity stream"
+#: app/admin/class-bp-field-repeater-admin.php:70
+msgid "Make this field as a repeater."
 msgstr ""
 
-#: app/main/class-bp-repost-activity.php:62
-msgid "Post in"
+#: app/admin/class-bp-field-repeater-admin.php:78
+msgid "No"
 msgstr ""
 
-#: app/main/class-bp-repost-activity.php:65
-msgid "Public"
+#: app/admin/class-bp-field-repeater-admin.php:79
+msgid "Yes"
 msgstr ""
 
-#: app/main/class-bp-repost-activity.php:68
-msgid "Group"
+#: app/main/class-bp-field-repeater.php:121
+msgid "+ Add"
 msgstr ""
 
-#: app/main/class-bp-repost-activity.php:87
-msgid "Close"
+#: app/main/class-bp-field-repeater.php:185
+msgid "- Remove"
 msgstr ""
 
-#: app/main/class-bp-repost-activity.php:88
-msgid "Post"
-msgstr ""
-
-#: app/main/class-bp-repost-activity.php:111
-msgid "Re-Post"
-msgstr ""
-
-#: bp-repost-activity.php:84
+#: bp-profile-field-repeater.php:84
 #, php-format
 msgid ""
-"%s works with BuddyPress only. Please activate BuddyPress or de-activate %s."
+"%1$s works with BuddyPress only. Please activate BuddyPress or de-activate "
+"%2$s."
 msgstr ""
