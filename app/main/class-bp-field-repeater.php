@@ -37,6 +37,8 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 
 			// Set attributes as per repeater field.
 			add_filter( 'bp_xprofile_field_edit_html_elements', array( $this, 'bppfr_field_edit_html_elements' ), 10, 2 );
+
+			add_filter( 'bp_xprofile_set_field_data_pre_validate', array( $this, 'bppfr_set_field_data' ), 99, 3 );
 		}
 
 		/**
@@ -77,6 +79,10 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 			// Get field ID.
 			$field_id = bp_get_the_profile_field_id();
 
+			if ( ! bppfr_is_valid_repeater_field( $field_id ) ) {
+				return;
+			}
+
 			// Get value if field is repeater or not.
 			$field_is_repeater = bp_xprofile_get_meta( $field_id, 'field', 'field_is_repeater' );
 
@@ -91,7 +97,7 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 
 					$value = maybe_unserialize( $value ); // Make array.
 
-					if ( count( $value ) > 1 ) {
+					if ( is_array( $value ) && count( $value ) > 1 ) {
 
 						array_shift( $value ); // Remove first value. First value will display in default field.
 						$value = array_values( array_filter( $value ) );
@@ -132,10 +138,18 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 		 */
 		public function bppfr_field_edit_html_elements( $attr, $class ) {
 
+			if ( is_admin() ) {
+				return $attr;
+			}
+
 			$field_name  = $attr['name']; // Field name attribute.
 			$field_arr   = explode( '_', $field_name ); // Make array.
 			$array_count = count( $field_arr ); // Get total count of array.
 			$field_id    = $field_arr[ $array_count - 1 ]; // Get field ID.
+
+			if ( ! bppfr_is_valid_repeater_field( $field_id ) ) {
+				return $attr;
+			}
 
 			// Get value if field is repeater or not.
 			$field_is_repeater = bp_xprofile_get_meta( $field_id, 'field', 'field_is_repeater' );
@@ -187,6 +201,37 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 			);
 
 			echo '</p></div>'; // End .clone_field.
+		}
+
+		/**
+		 * Filter the raw submitted profile field value.
+		 *
+		 * @param mixed                  $value          Value passed to xprofile_set_field_data().
+		 * @param BP_XProfile_Field      $field          Field object.
+		 * @param BP_XProfile_Field_Type $field_type_obj Field type object.
+		 * @return mixed
+		 */
+		public function bppfr_set_field_data( $value, $field, $field_type_obj ) {
+
+			if ( empty( $field ) || empty( $value ) ) {
+				return $value;
+			}
+
+			if ( ! bppfr_is_valid_repeater_field( $field->id ) ) {
+				return $value;
+			}
+
+			// Get value if field is repeater or not.
+			$field_is_repeater = bp_xprofile_get_meta( $field->id, 'field', 'field_is_repeater' );
+
+			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+
+				$value = array_values( array_filter( $value ) );
+
+			}
+
+			return $value;
+
 		}
 	}
 

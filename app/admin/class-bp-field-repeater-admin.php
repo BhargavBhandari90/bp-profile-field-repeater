@@ -124,13 +124,17 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 		public function bppfr_save_repeater_setting( $field ) {
 
 			// Bail, if anything goes wrong.
-			if ( empty( $field ) ) {
+			if ( empty( $field ) || ! function_exists( 'bp_xprofile_update_field_meta' ) ) {
 				return;
 			}
 
 			// Save repeater settings.
-			if ( isset( $_POST['field_is_repeater'] ) && 'yes' === wp_unslash( $_POST['field_is_repeater'] ) ) {
+			if ( isset( $_POST['field_is_repeater'] ) &&
+				 'yes' === wp_unslash( $_POST['field_is_repeater'] ) &&
+				 bppfr_is_valid_repeater_field( $field->id ) ) {
+
 				bp_xprofile_update_field_meta( $field->id, 'field_is_repeater', 'yes' );
+
 			} else {
 				bp_xprofile_update_field_meta( $field->id, 'field_is_repeater', 'no' );
 			}

@@ -98,4 +98,5 @@ add_action( 'admin_notices', 'bppfr_admin_notice_error' );
 
 // Include functions file.
 require BPPFR_PATH . 'app/main/class-bp-field-repeater.php';
+require BPPFR_PATH . 'app/includes/common-functions.php';
 require BPPFR_PATH . 'app/admin/class-bp-field-repeater-admin.php';
