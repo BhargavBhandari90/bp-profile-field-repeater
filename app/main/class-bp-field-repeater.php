@@ -103,7 +103,6 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 							$this->bppfr_get_clone_html( $field_type, $field_id, $val );
 						}
 					}
-
 				}
 				echo '</div>';
 
@@ -134,7 +133,7 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 		public function bppfr_field_edit_html_elements( $attr, $class ) {
 
 			$field_name  = $attr['name']; // Field name attribute.
-			$field_arr   = explode( '_' , $field_name ); // Make array.
+			$field_arr   = explode( '_', $field_name ); // Make array.
 			$array_count = count( $field_arr ); // Get total count of array.
 			$field_id    = $field_arr[ $array_count - 1 ]; // Get field ID.
 
@@ -165,7 +164,7 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 		 *
 		 * @param  object  $field_type Object of field as per type.
 		 * @param  integer $field_id   Field ID.
-		 * @param  string $val         Value of field.
+		 * @param  string  $val         Value of field.
 		 * @return void
 		 */
 		public function bppfr_get_clone_html( $field_type, $field_id, $val = '' ) {
@@ -173,11 +172,13 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 			echo '<div class="clone_field"><p>';
 
 			// Get field html.
-			$field_type->edit_field_html( array(
-				'name'  => 'field_' . $field_id . '[]',
-				'value' => $val,
-				'id'    => '',
-			) );
+			$field_type->edit_field_html(
+				array(
+					'name'  => 'field_' . $field_id . '[]',
+					'value' => $val,
+					'id'    => '',
+				)
+			);
 
 			// Remove button.
 			echo sprintf(

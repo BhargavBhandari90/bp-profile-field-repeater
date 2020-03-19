@@ -70,10 +70,12 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 					<p class="description"><?php esc_html_e( 'Make this field as a repeater.', 'bp-field-repeater' ); ?></p>
 
 					<p>
-						<label for="field-is-repeater" class="screen-reader-text"><?php
+						<label for="field-is-repeater" class="screen-reader-text">
+						<?php
 							/* translators: accessibility text */
 							esc_html_e( 'Is the field repeater?', 'bp-field-repeater' );
-						?></label>
+						?>
+						</label>
 						<select name="field_is_repeater" id="field-is-repeater">
 							<option value="no" <?php selected( $this->get_is_field_repeater(), 'no' ); ?>><?php esc_html_e( 'No', 'bp-field-repeater' ); ?></option>
 							<option value="yes" <?php selected( $this->get_is_field_repeater(), 'yes' ); ?>><?php esc_html_e( 'Yes', 'bp-field-repeater' ); ?></option>
