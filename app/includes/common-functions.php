@@ -21,12 +21,14 @@ function bppfr_is_valid_repeater_field( $field_id = 0 ) {
 
 	$field = new BP_XProfile_Field( $field_id );
 
-	if ( ! empty( $field ) ) {
+	if ( empty( $field ) ) {
 		return false;
 	}
 
 	$valid_field_tyeps = array(
-		'textbox' => true,
+		'textbox'   => true,
+		// 'telephone' => true,
+		'number'    => true,
 	);
 
 	if ( isset( $valid_field_tyeps[ $field->type ] ) ) {

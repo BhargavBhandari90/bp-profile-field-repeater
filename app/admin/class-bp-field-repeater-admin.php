@@ -81,6 +81,7 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 							<option value="yes" <?php selected( $this->get_is_field_repeater(), 'yes' ); ?>><?php esc_html_e( 'Yes', 'bp-field-repeater' ); ?></option>
 						</select>
 					</p>
+					<p class="description"><?php esc_html_e( 'Applicable only for Text Box & Number.', 'bp-field-repeater' ); ?></p>
 				</div>
 			</div>
 
