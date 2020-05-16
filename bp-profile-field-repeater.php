@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     BuddyPress Profile Field Repeater
  * Plugin URI:      https://bhargavb.wordpress.com/
- * Description:     Make profile field as a repeater.
+ * Description:     Make TEXT BOX or NUMBER type profile field as a repeater.
  * Author:          Bunty
  * Author URI:      https://bhargavb.wordpress.com/about/
  * Text Domain:     bp-field-repeater
@@ -48,7 +48,7 @@ if ( ! defined( 'BPPFR_BASE_NAME' ) ) {
 /**
  * Apply transaltion file as per WP language.
  */
-function bprpa_text_domain_loader() {
+function bppfr_text_domain_loader() {
 
 	// Get mo file as per current locale.
 	$mofile = BPPFR_PATH . 'languages/' . get_locale() . '.mo';
@@ -61,7 +61,7 @@ function bprpa_text_domain_loader() {
 	load_textdomain( 'bp-field-repeater', $mofile );
 }
 
-add_action( 'plugins_loaded', 'bprpa_text_domain_loader' );
+add_action( 'plugins_loaded', 'bppfr_text_domain_loader' );
 
 /**
  * Display admin notice if BuddyPress is not activated.
