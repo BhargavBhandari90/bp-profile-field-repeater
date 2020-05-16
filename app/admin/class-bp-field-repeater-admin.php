@@ -53,6 +53,9 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 			// Save setting.
 			add_action( 'xprofile_fields_saved_field', array( $this, 'bppfr_save_repeater_setting' ) );
 
+			// Show label.
+			add_action( 'xprofile_admin_field_name_legend', array( $this, 'bppfr_repeater_label' ) );
+
 		}
 
 		/**
@@ -138,6 +141,35 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 
 			} else {
 				bp_xprofile_update_field_meta( $field->id, 'field_is_repeater', 'no' );
+			}
+
+		}
+
+		/**
+		 * Show repeater label to identify repeater field in fields list.
+		 *
+		 * @param  object $field Field object.
+		 * @return void
+		 */
+		public function bppfr_repeater_label( $field ) {
+
+			// Bail, if anything goes wrong.
+			if ( empty( $field ) ) {
+				return;
+			}
+
+			// Get if field is repeater.
+			$field_is_repeater = bp_xprofile_get_meta( $field->id, 'field', 'field_is_repeater' );
+
+			// Show label if repeater.
+			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+
+				echo sprintf(
+					/* translators: %1$s is for repeater label */
+					' - <strong>%1$s</strong>',
+					esc_html__( 'Repeater', 'bp-field-repeater' )
+				);
+
 			}
 
 		}
