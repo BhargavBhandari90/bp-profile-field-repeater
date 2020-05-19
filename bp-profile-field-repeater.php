@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     BuddyPress Profile Field Repeater
+ * Plugin Name:     Profile Field Repeater
  * Plugin URI:      https://bhargavb.wordpress.com/
  * Description:     Make TEXT BOX or NUMBER type profile field as a repeater.
  * Author:          Bunty
