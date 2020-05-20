@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     Profile Field Repeater
- * Plugin URI:      https://bhargavb.wordpress.com/
+ * Plugin URI:      https://bhargavb.wordpress.com/2020/05/21/profile-field-repeater-for-buddypress/
  * Description:     Make TEXT BOX or NUMBER type profile field as a repeater.
  * Author:          Bunty
  * Author URI:      https://bhargavb.wordpress.com/about/
