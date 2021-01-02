@@ -3,9 +3,9 @@
 - **Donate link:** https://www.paypal.me/BnB90/50 
 - **Tags:** buddypress, profile, profile fields, repeater 
 - **Requires at least:** 4.0 
-- **Tested up to:** 5.4.1 
+- **Tested up to:** 5.6 
 - **Requires PHP:** 5.6 
-- **Stable tag:** 1.0.0 
+- **Stable tag:** 1.0.1 
 - **License:** GPLv2 or later 
 - **License URI:** http://www.gnu.org/licenses/gpl-2.0.html 
 
@@ -38,5 +38,9 @@ This plugin will fulfill the requirement of adding repeaters in profile field.
 ![Field set as repeater in user profile.](https://user-images.githubusercontent.com/19459637/82126157-6dd2b400-97c8-11ea-8d79-49147551b28c.jpg)
 
 ## Changelog ##
+
+### 1.0.1 ###
+* Display each repeater values in new line.
+
 ### 1.0.0 ###
 * Initial release.

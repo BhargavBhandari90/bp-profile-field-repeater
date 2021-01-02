@@ -7,7 +7,7 @@
  * Author URI:      https://bhargavb.wordpress.com/about/
  * Text Domain:     bp-field-repeater
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.0.1
  *
  * @package         Bp_Profile_Fields_Repeater
  */
@@ -21,7 +21,7 @@ if ( ! defined( 'BPPFR_VERSION' ) ) {
 	/**
 	 * The version of the plugin.
 	 */
-	define( 'BPPFR_VERSION', '1.0.0' );
+	define( 'BPPFR_VERSION', '1.0.1' );
 }
 
 if ( ! defined( 'BPPFR_PATH' ) ) {
