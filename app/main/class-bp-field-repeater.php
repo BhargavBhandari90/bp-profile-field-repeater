@@ -39,6 +39,8 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 			add_filter( 'bp_xprofile_field_edit_html_elements', array( $this, 'bppfr_field_edit_html_elements' ), 10, 2 );
 
 			add_filter( 'bp_xprofile_set_field_data_pre_validate', array( $this, 'bppfr_set_field_data' ), 99, 3 );
+
+			add_filter( 'bp_get_the_profile_field_value', array( $this, 'bppfr_profile_field_value' ), 10, 3 );
 		}
 
 		/**
@@ -232,6 +234,41 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 
 			return $value;
 
+		}
+
+		/**
+		 * Filters the XProfile field value.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Value for the profile field.
+		 * @param string $type  Type for the profile field.
+		 * @param int    $id    ID for the profile field.
+		 */
+		public function bppfr_profile_field_value( $value, $type, $id ) {
+
+			// Bail, if anything goes wrong.
+			if ( ! function_exists( 'bp_displayed_user_id' ) || ! function_exists( 'xprofile_get_field_data' ) ) {
+				return $value;
+			}
+
+			// Get value if field is repeater or not.
+			$field_is_repeater = function_exists( 'bp_xprofile_get_meta' )
+				? bp_xprofile_get_meta( $id, 'field', 'field_is_repeater' )
+				: '';
+
+			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+
+				// Get value.
+				$value = xprofile_get_field_data( $id, bp_displayed_user_id() );
+
+				// Make all result on new line.
+				if ( ! empty( $value ) ) {
+					$value = implode( '<br/>', $value );
+				}
+			}
+
+			return $value;
 		}
 	}
 
