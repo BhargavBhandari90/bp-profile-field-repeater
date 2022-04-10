@@ -3,7 +3,7 @@ Contributors: bhargavbhandari90
 Donate link: https://www.paypal.me/BnB90/50
 Tags: buddypress, profile, profile fields, repeater
 Requires at least: 4.0
-Tested up to: 5.6
+Tested up to: 5.9.3
 Requires PHP: 5.6
 Stable tag: 1.0.1
 License: GPLv2 or later

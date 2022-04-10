@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:     Profile Field Repeater
- * Plugin URI:      https://bhargavb.wordpress.com/2020/05/21/profile-field-repeater-for-buddypress/
- * Description:     Make TEXT BOX or NUMBER type profile field as a repeater.
+ * Plugin URI:      https://bhargavb.com/profile-field-repeater-for-buddypress/
+ * Description:     Make TEXT BOX or NUMBER type profile field as a repeater for BuddyPress.
  * Author:          Bunty
- * Author URI:      https://bhargavb.wordpress.com/about/
+ * Author URI:      https://bhargavb.com/about/
  * Text Domain:     bp-field-repeater
  * Domain Path:     /languages
  * Version:         1.0.1
