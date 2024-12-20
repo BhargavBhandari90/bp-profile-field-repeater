@@ -40,9 +40,9 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Admin' ) ) {
 		public function __construct() {
 
 			// Bail, if anything goes wrong.
-			if ( function_exists( 'buddypress' ) ) {
-				return;
-			}
+			// if ( function_exists( 'buddypress' ) ) {
+			// 	return;
+			// }
 
 			// Set field id.
 			$this->id = filter_input( INPUT_GET, 'field_id', FILTER_SANITIZE_NUMBER_INT );

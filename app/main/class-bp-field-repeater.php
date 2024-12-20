@@ -25,9 +25,9 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 		 */
 		public function __construct() {
 
-			if ( function_exists( 'buddypress' ) ) {
-				return;
-			}
+			// if ( function_exists( 'buddypress' ) ) {
+			// 	return;
+			// }
 
 			// Add custom script.
 			add_action( 'wp_enqueue_scripts', array( $this, 'bppfr_enqueue_styles_scripts' ), 99 );
@@ -41,6 +41,107 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 			add_filter( 'bp_xprofile_set_field_data_pre_validate', array( $this, 'bppfr_set_field_data' ), 99, 3 );
 
 			add_filter( 'bp_get_the_profile_field_value', array( $this, 'bppfr_profile_field_value' ), 10, 3 );
+
+			// Add admin functionality
+			$this->bppfr_admin_field_display();
+		}
+
+
+		public function bppfr_admin_field_display() {
+
+			if ( ! is_admin() ) {
+				return;
+			}
+		
+			// Add custom script for admin
+			add_action( 'admin_enqueue_scripts', array( $this, 'bppfr_enqueue_styles_scripts' ) );
+			
+			// Add the repeater functionality to admin profile fields
+			add_action( 'bp_custom_profile_edit_fields_pre_visibility', array( $this, 'bppfr_admin_add_more_field' ) );
+			
+			// // Save the repeater fields
+			// add_action( 'show_user_profile', array( $this, 'bppfr_save_admin_fields' ) );
+			// add_action( 'edit_user_profile', array( $this, 'bppfr_save_admin_fields' ) );
+		}
+		
+		public function bppfr_admin_add_more_field() {
+			// Bail, if anything goes wrong.
+			if ( ! function_exists( 'bp_get_the_profile_field_id' ) || ! function_exists( 'bp_xprofile_get_meta' ) ) {
+				return;
+			}
+
+			// Get field ID.
+			$field_id = bp_get_the_profile_field_id();
+
+			if ( ! bppfr_is_valid_repeater_field( $field_id ) ) {
+				return;
+			}
+
+			// Get value if field is repeater or not.
+			$field_is_repeater = bp_xprofile_get_meta( $field_id, 'field', 'field_is_repeater' );
+
+			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+				// Get the user ID from the admin screen
+				$user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : get_current_user_id();
+				
+				$value      = xprofile_get_field_data( $field_id, $user_id ); // Get value
+				$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() ); // Get field type
+
+				// Container for additional fields
+				echo '<div class="more_data more_data_' . esc_attr( $field_id ) . '">';
+
+				if ( ! empty( $value ) ) {
+					$value = maybe_unserialize( $value ); // Make array
+
+					if ( is_array( $value ) && count( $value ) > 1 ) {
+						array_shift( $value ); // Remove first value. First value will display in default field
+						$value = array_values( array_filter( $value ) );
+
+						// Display other values
+						foreach ( $value as $val ) {
+							echo '<div class="clone_field"><p>';
+							// Markup for other values
+							$field_type->edit_field_html(
+								array(
+									'name'  => 'field_' . $field_id . '[]',
+									'value' => $val,
+									'id'    => '',
+								)
+							);
+							echo sprintf(
+								'<a href="javascript:void(0)" class="bp_remove_field button button-secondary">%1$s</a>',
+								esc_html__( '- Remove', 'bp-field-repeater' )
+							);
+							echo '</p></div>';
+						}
+					}
+				}
+				echo '</div>';
+
+				// Template for new fields (hidden)
+				echo '<div style="display:none" class="clone_field_' . esc_attr( $field_id ) . '">';
+				echo '<p>';
+				$field_type->edit_field_html(
+					array(
+						'name'  => 'field_' . $field_id . '[]',
+						'value' => '',
+						'id'    => '',
+					)
+				);
+				echo sprintf(
+					'<a href="javascript:void(0)" class="bp_remove_field button button-secondary">%1$s</a>',
+					esc_html__( '- Remove', 'bp-field-repeater' )
+				);
+				echo '</p>';
+				echo '</div>';
+
+				// Add button with admin-specific styling
+				echo sprintf(
+					'<a data-field_id="%1$s" href="javascript:void(0)" class="bp_add_more_field button button-secondary">%2$s</a>',
+					intval( $field_id ),
+					esc_html__( '+ Add', 'bp-field-repeater' )
+				);
+			}
 		}
 
 		/**
@@ -93,8 +194,6 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 				$value      = xprofile_get_field_data( $field_id ); // Get value.
 				$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() ); // Get field type.
 
-				echo '<div class="more_data more_data_' . esc_attr( $field_id ) . '">';
-
 				if ( ! empty( $value ) ) {
 
 					$value = maybe_unserialize( $value ); // Make array.
@@ -112,7 +211,6 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 						}
 					}
 				}
-				echo '</div>';
 
 				echo '<div style="display:none" class="clone_field_' . esc_attr( $field_id ) . '">';
 
@@ -140,9 +238,9 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 		 */
 		public function bppfr_field_edit_html_elements( $attr, $class ) {
 
-			if ( is_admin() ) {
-				return $attr;
-			}
+			// if ( is_admin() ) {
+			// 	return $attr;
+			// }
 
 			$field_name  = $attr['name']; // Field name attribute.
 			$field_arr   = explode( '_', $field_name ); // Make array.
@@ -158,17 +256,20 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 
 			// If field is repeater, then manipulate attributes.
 			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+				if(!empty($attr['value'])){
 
-				// Cleanup the value and make it array.
-				$value = maybe_unserialize( htmlspecialchars_decode( $attr['value'] ) );
+					
+					// Cleanup the value and make it array.
+					$value = maybe_unserialize( htmlspecialchars_decode( $attr['value'] ) );
 
-				// Set first value from array.
-				if ( ! empty( $value ) && is_array( $value ) ) {
-					$attr['value'] = $value[0];
+					// Set first value from array.
+					if ( ! empty( $value ) && is_array( $value ) ) {
+						$attr['value'] = $value[0];
+					}
+
+					// Change name to array form.
+					$attr['name'] = $field_name . '[]';
 				}
-
-				// Change name to array form.
-				$attr['name'] = $field_name . '[]';
 			}
 
 			return $attr;
