@@ -256,17 +256,20 @@ if ( ! class_exists( 'BP_Profile_Field_Repeater_Main' ) ) {
 
 			// If field is repeater, then manipulate attributes.
 			if ( ! empty( $field_is_repeater ) && 'yes' === $field_is_repeater ) {
+				if(!empty($attr['value'])){
 
-				// Cleanup the value and make it array.
-				$value = maybe_unserialize( htmlspecialchars_decode( $attr['value'] ) );
+					
+					// Cleanup the value and make it array.
+					$value = maybe_unserialize( htmlspecialchars_decode( $attr['value'] ) );
 
-				// Set first value from array.
-				if ( ! empty( $value ) && is_array( $value ) ) {
-					$attr['value'] = $value[0];
+					// Set first value from array.
+					if ( ! empty( $value ) && is_array( $value ) ) {
+						$attr['value'] = $value[0];
+					}
+
+					// Change name to array form.
+					$attr['name'] = $field_name . '[]';
 				}
-
-				// Change name to array form.
-				$attr['name'] = $field_name . '[]';
 			}
 
 			return $attr;
